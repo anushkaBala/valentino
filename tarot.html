@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Love Reading</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            background: black;
+            color: white;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .tarot-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 50px;
+        }
+        .card {
+            width: 120px;
+            height: 180px;
+            background: linear-gradient(180deg, #1a001a, #3b003b);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6a8e;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 0px 10px rgba(255, 105, 135, 0.5);
+            position: relative;
+        }
+        .card:hover, .card.selected {
+            box-shadow: 0px 0px 20px rgba(255, 105, 135, 0.8);
+            transform: translateY(-5px);
+        }
+        .card i {
+            font-size: 50px;
+            color: #ff6a8e;
+        }
+        .result-box {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(100, 0, 100, 0.7);
+            border-radius: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0px 0px 20px rgba(255, 105, 135, 0.5);
+            display: none;
+        }
+        .result-box h2 {
+            color: #ff6a8e;
+            font-size: 22px;
+        }
+        .result-box p {
+            font-size: 16px;
+        }
+        .generate-btn {
+            background: linear-gradient(45deg, #ff477e, #ff6a8e);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(255, 105, 135, 0.3);
+        }
+        .generate-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 105, 135, 0.5);
+        }
+        .floating-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .floating-icon {
+            position: absolute;
+            color: rgba(255, 105, 135, 0.3);
+            font-size: 20px;
+            animation: floatIcons 6s infinite linear;
+        }
+        @keyframes floatIcons {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Pick a Card for Your Love Reading</h1>
+    <div class="tarot-container">
+        <div class="card" onclick="selectCard(this, 0)"><i class="fas fa-heart"></i></div>
+        <div class="card" onclick="selectCard(this, 1)"><i class="fas fa-heart"></i></div>
+        <div class="card" onclick="selectCard(this, 2)"><i class="fas fa-heart"></i></div>
+        <div class="card" onclick="selectCard(this, 3)"><i class="fas fa-heart"></i></div>
+        <div class="card" onclick="selectCard(this, 4)"><i class="fas fa-heart"></i></div>
+    </div>
+
+    <div class="result-box" id="resultBox">
+        <h2 id="cardTitle">Your Card</h2>
+        <p id="cardMessage">Your reading will appear here.</p>
+        <button class="generate-btn" onclick="redirectToLoveLetter()">Generate Love Letter</button>
+    </div>
+
+    <div class="floating-icons"></div>
+
+    <script>
+        const readings = [
+            { title: "The Lovers", message: "Love and deep connections are on the horizon. Embrace new romantic opportunities and strengthen existing bonds. Seems like you still hold butterflies for each other. You are pure-hearted, and your valentine stands in firm support for your love. Cheers to love and prosperity!" },
+            { title: "Two of Cups", message: "A powerful union or soulmate connection awaits. This is a time of harmony, balance, and emotional fulfillment. You and your personality are so unique and charming. Your valentine adores you, smiling and blooming!" },
+            { title: "Ten of Cups", message: "Emotional fulfillment and lasting happiness are in your future. Cherish this blessed connection. You are a diamond-hearted human, and your valentine is so lucky to have you." },
+            { title: "Ace of Pentacles", message: "A new beginning in love is manifesting. Expect stability, commitment, and a promising future ahead. A lot of opportunities are waiting for you and your valentine." },
+            { title: "The Star", message: "Hope, healing, and divine love are shining upon you. Trust in the universe and let love flow naturally." },
+        ];
+
+        function selectCard(card, index) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            let reading = readings[index];
+            document.getElementById('cardTitle').innerText = reading.title;
+            document.getElementById('cardMessage').innerText = reading.message;
+            document.getElementById('resultBox').style.display = "block";
+        }
+
+        function redirectToLoveLetter() {
+            alert("Your love letter is being prepared! 💌"); 
+            setTimeout(() => {
+                window.location.href = "love_letter.html"; // Change this if needed
+            }, 1000); // Small delay for effect
+        }
+
+        function createFloatingIcons() {
+            const container = document.querySelector(".floating-icons");
+            for (let i = 0; i < 30; i++) {
+                let icon = document.createElement("span");
+                icon.className = "floating-icon";
+                icon.innerHTML = ["💖", "❤️", "💌", "💕", "💞", "💘", "❣️", "😍"][Math.floor(Math.random() * 8)];
+                icon.style.left = Math.random() * 100 + "vw";
+                icon.style.top = Math.random() * 100 + "vh";
+                icon.style.animationDuration = (Math.random() * 5 + 3) + "s";
+                container.appendChild(icon);
+            }
+        }
+
+        createFloatingIcons();
+    </script>
+</body>
+</html>

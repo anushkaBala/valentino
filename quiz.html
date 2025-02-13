@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .quiz-container {
+            margin: 10vh auto;
+            padding: 20px;
+            background: rgba(128, 0, 128, 0.4);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.6);
+        }
+        .question-box {
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.5);
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        button {
+            background: linear-gradient(45deg, #ff0040, #ff3399);
+            color: white;
+            border: none;
+            padding: 12px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 18px;
+            width: 80%;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        h1 {
+            color: #ff3399;
+        }
+        .floating {
+            position: absolute;
+            font-size: 35px; 
+            animation: floatUp 4s linear forwards;
+            opacity: 0.9;
+            text-shadow: 0 0 15px yellow; 
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0) scale(1); opacity: 1; }
+            to { transform: translateY(-350px) scale(2); opacity: 0; }
+        }
+        .background-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .icon {
+            position: absolute;
+            color: rgba(255, 255, 0, 0.8);
+            font-size: 35px;
+            animation: floatIcons 6s infinite linear;
+            text-shadow: 0 0 10px yellow, 0 0 20px yellow;
+        }
+        @keyframes floatIcons {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Time Remaining: <span id="timer">2:00</span></h1>
+    <div class="quiz-container">
+        <div class="question-box" id="question">When are you gifting roses and chocolate to your valentine?</div>
+        <button onclick="checkAnswer(this, 'wrong')">Today</button>
+        <button onclick="checkAnswer(this, 'wrong')">Now</button>
+        <button onclick="checkAnswer(this, 'wrong')">Right Now</button>
+        <button onclick="checkAnswer(this, 'correct')">I am running</button>
+    </div>
+
+    <div class="background-icons"></div>
+
+    <script>
+        function startTimer(duration) {
+            let timer = duration;
+            let timerElement = document.getElementById('timer');
+            let countdown = setInterval(() => {
+                let minutes = Math.floor(timer / 60);
+                let seconds = timer % 60;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                timerElement.textContent = minutes + ":" + seconds;
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    timerElement.textContent = "Time's Up!";
+                    redirectToTarot();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(button, result) {
+            if (result === 'correct') {
+                alert("Correct! Your Valentine is waiting! 💖");
+                sprinkleEffect('🌷'); // Tulip effect on correct answer
+            } else {
+                alert("Wrong answer! But don't worry, love awaits! 💔");
+                sprinkleEffect('💔'); // Heartbreak effect on wrong answer
+            }
+            redirectToTarot(); 
+        }
+
+        function sprinkleEffect(symbol) {
+            for (let i = 0; i < 30; i++) {
+                let span = document.createElement("span");
+                span.innerHTML = symbol;
+                span.className = "floating";
+                document.body.appendChild(span);
+                span.style.left = Math.random() * 100 + "vw";
+                span.style.top = "100vh";
+                span.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                span.style.fontSize = "35px"; 
+                span.style.textShadow = "0 0 15px yellow"; 
+                setTimeout(() => span.remove(), 4000);
+            }
+        }
+
+        function createBackgroundIcons() {
+            const container = document.querySelector(".background-icons");
+            for (let i = 0; i < 50; i++) {
+                let icon = document.createElement("span");
+                icon.className = "icon";
+                icon.innerHTML = "🌷";
+                icon.style.left = Math.random() * 100 + "vw";
+                icon.style.top = Math.random() * 100 + "vh";
+                icon.style.animationDuration = (Math.random() * 5 + 3) + "s";
+                icon.style.fontSize = "35px";
+                icon.style.textShadow = "0 0 15px yellow"; 
+                container.appendChild(icon);
+            }
+        }
+
+        function redirectToTarot() {
+            setTimeout(() => {
+                window.location.href = "tarot.html"; 
+            }, 1000); 
+        }
+
+        createBackgroundIcons();
+        startTimer(120);
+    </script>
+</body>
+</html>
